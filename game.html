@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+  margin: 0;
+}
+
+.stone {
+  border-radius: 50%;
+  background-image: url(spiral.jpg);
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  transition: all 2s;
+}
+
+.win-stone {
+  left: 50%;
+  position: absolute;
+  margin-left: -50px;
+  bottom: 100px;
+}
+
+#stone {
+  bottom: 100px;
+}
+
+#striker {
+  left: 50%;
+  position: absolute;
+  bottom: 50px;
+  top: 0;
+  transition: all 1s;
+}
+
+
+#string {
+  position: absolute;
+  transition: all 2s;
+  bottom: 0;
+}
+
+.down #string {
+  transform: scale(1, 0.5);
+}
+
+.up #string {
+  transform: scale(1, 1);
+  transition: all 0.5s;
+}
+.up #stone {
+  transition: all 0.5s;
+}
+
+.away-stone {
+  bottom: calc(100% - 100px);
+  transition: all 1s;
+}
+
+.away #stone {
+  bottom: calc(100% - 200px);
+  transform: scale(.1, .1);
+  transition: all 1s;
+}
+
+.down #stone {
+  bottom: 70px;
+}
+
+#string > div {
+  border: 1px solid black;
+  border-radius: 50% 50% 5px 50%;
+  border-bottom-right: none;
+  width: 100px;
+  height: 30px;
+  position: relative;
+}
+
+#string > div + div { top:-20px; }
+#string > div + div + div { top:-40px; }
+#string > div + div + div + div { top:-60px; }
+
+#string div div:first-child {
+  background: green;
+  width: 1px;
+  height: 50%;
+  position: absolute;
+  bottom: 2px;
+  right: -1px;
+}
+
+
+.burg {
+  background-color: lightblue;
+  background-image: url(IMG-5113.jpg);
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transition: all 0.5s;
+  background-blend-mode: multiply;
+}
+
+#burg2 {
+  display: none;
+}
+
+.final #burg2 {
+  display: block;
+}
+
+.blown.burg {
+  background: none;
+}
+
+.blown#stone {
+  display:none;
+}
+
+#paf {
+  display: none;
+  background: url(IMG-5114.jpg);
+  background-size: cover;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+}
+
+.blown #paf,
+.blown #paf2 {
+  display: block;
+}
+
+.striked #paf,
+.striked #paf2 {
+  display: none;
+}
+
+#good-game {
+  height: 100%;
+  width: 100%;
+  background: white;
+  position: absolute;
+  display: none;
+}
+
+.good-game #good-game {
+  display: block;
+}
+
+#win {
+  height: 100%;
+  width: 100%;
+  background: white;
+  position: absolute;
+  display: none;
+}
+
+.win #win {
+  display: block;
+}
+
+
+#strike {
+  display: none;
+  background: url(IMG-5115.jpg);
+  background-size: cover;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+}
+
+.striked #strike,
+.striked #strike2 {
+  display: block;
+}
+
+#score {
+  position: absolute;
+}
+
+.final #score {
+  display: none;
+}
+
+#flag {
+  background: url(15506.jpg);
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+
+#score div {
+height: 20px;
+}
+
+#score-stone {
+  width: 20px;
+  height: 20px;
+  left: 30px;
+}
+
+.won-game-stone,
+#good-game-stone {
+  width: 400px;
+  height: 400px;
+  left: 50%;
+  margin-left: -200px;
+  color: red;
+  font-size: 30px;
+  text-align: center;
+  line-height: 400px;
+  font-weight: 800;
+}
+
+.blue {
+  background: lightblue;
+  height: 200px;
+}
+
+.green {
+  background: green;
+  position: absolute;
+  top: 200px;
+  bottom: 0;
+  width: 100%;
+}
+
+</style>
+</head>
+<body>
+<div class="blue"></div>
+<div class="green"></div>
+
+<div id="score">
+<div id="score-stone" class="stone" style="bottom:-20px"></div>
+<div id="flag"></div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+<div>X</div>
+
+</div>
+<audio id="drums" loop>
+ <source src="drums.m4a">
+</audio>
+<audio id="boom">
+ <source src="boom.m4a">
+</audio>
+<audio id="loose">
+ <source src="loose.m4a">
+</audio>
+<div id="burg" class="burg" style="margin-left:0">
+  <div id="paf"></div>
+  <div id="strike"></div>
+</div>
+<div id="burg2" class="burg" style="margin-left:0">
+  <div id="paf2></div>
+  <div id="strike2"></div>
+</div>
+<div id="striker" style="margin-left: -50px;">
+	<div id="string">
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+	</div>
+        <div id="stone" class="stone"></div>
+</div>
+<div id="good-game">
+
+<div id="good-game-stone" class="stone">Good game!</div>
+
+</div>
+
+<div id="win"></div>
+<script>
+
+  let drums = document.getElementById('drums');
+  let boom = document.getElementById('boom');
+  let loose = document.getElementById('loose');
+  let burg = document.getElementById('burg');
+  let burg2 = document.getElementById('burg2');
+  let striker = document.getElementById('striker');
+  let scoreStone = document.getElementById('score-stone');
+  let body = document.body;
+
+  function move(el, dist) {
+    el.style.marginLeft=
+      parseInt(el.style.marginLeft) + dist + 'px';
+  }
+
+  function newTurn() {
+    body.classList.remove('away');
+    burg.style.marginLeft = (Math.random() -0.5) * (window.innerWidth - 200) + 'px';
+    stone.classList = 'stone';
+    burg.classList = 'burg';
+    burg2.classList = 'burg';
+  }
+
+  function left() {
+    move(striker, -50);
+  }
+
+  function right() {
+    move(striker, 50);
+  }
+
+  function down() {
+    body.classList.add('down');
+    drums.play();
+  }
+
+  function up() {
+    if(!body.classList.contains('down')) return;
+
+    body.classList.remove('down');
+    body.classList.add('up');
+    setTimeout(()=> {
+      body.classList.remove('up');
+      body.classList.add('away');
+    }, 100); 
+    setTimeout(shot, 1100);
+  }
+
+  function shot() {
+    body.classList.remove('up');
+    const dist = Math.abs(parseInt(burg.style.marginLeft) - parseInt(striker.style.marginLeft));
+    const dist2 = Math.abs(parseInt(burg2.style.marginLeft) - parseInt(striker.style.marginLeft));
+    drums.pause();
+    if (body.classList.contains('final') && burg2.style.display != 'none' && dist2 < 100) {
+      hit(burg2);
+    } else if (dist < 50 || body.classList.contains('final') && dist < 100) {
+      hit(burg);
+    } else {
+      miss();
+    }
+  }
+
+  function hit(el) {
+    boom.play();
+    stone.classList.add('blown');
+    el.classList.add('blown');
+    setTimeout(()=> {
+     el.classList.add('striked');
+    }, 400); 
+    scoreStone.style.bottom=
+      parseInt(scoreStone.style.bottom) + 20 + 'px';
+    if (parseInt(scoreStone.style.bottom) == 14 * 20) {
+      body.classList.add('good-game');
+      setTimeout(finalGame, 3000);
+    } else {
+      if (body.classList.contains('final')) {
+        el.style.display = 'none';
+        if (burg.style.display == 'none' && burg2.style.display == 'none') {
+          win();
+          return;
+        }
+      }
+      setTimeout(()=> {
+       newTurn();
+      }, 500); 
+    }
+  }
+
+  function finalGame() {
+    newTurn();
+    body.classList = "final";
+    setInterval(finalBurgMovement(burg, true), 500);
+    setInterval(finalBurgMovement(burg2, false), 500);
+  }
+
+  function finalBurgMovement(el, initLeft) {
+    let left = initLeft;
+    return () => {
+      if (left) {
+	if (parseInt(el.style.marginLeft) > -0.5 * window.innerWidth) {
+          move(el, -100);
+	} else {
+	  left = false;
+	}
+      } else {
+	if (parseInt(el.style.marginLeft) < 0.5 * window.innerWidth - 200) {
+          move(el, 100);
+	} else {
+	  left = true;
+	}
+      }
+    };
+  }
+
+  function miss() {
+    loose.play();
+    if (parseInt(scoreStone.style.bottom) >= 0) {
+      scoreStone.style.bottom =
+        parseInt(scoreStone.style.bottom) - 20 + 'px';
+    }
+    setTimeout(()=> {
+     newTurn();
+    }, 500); 
+  }
+
+  function win() {
+    body.classList='win';
+    let i = 0;
+    setInterval(() => {
+      if (i < 49) {
+        let winStone = document.createElement('div');
+        winStone.classList='stone win-stone';
+        document.body.appendChild(winStone);
+        setTimeout(() => winStone.classList.add('away-stone'), 100);
+        setTimeout(() => winStone.style.display='none', 1100);
+      } else if (i == 50) {
+        let winStone = document.createElement('div');
+        winStone.classList='stone win-stone';
+        winStone.innerText='You won!';
+        document.body.appendChild(winStone);
+        setTimeout(() => winStone.classList.add('won-game-stone'), 100);
+      }
+      ++i;
+    }, 100);
+  }
+
+  newTurn();
+  let screenX = -1, screenY = -1;
+  document.addEventListener("mousedown", event => {
+    screenX = event.screenX;
+    screenY = event.screenY;
+  });
+  document.addEventListener("mouseup", event => {
+    if (Math.abs(event.screenX - screenX) > Math.abs(event.screenY - screenY)) {
+      if (event.screenX > screenX) {
+        for (let i = 0; i < (event.screenX - screenX) / 100 + 1; ++i) {
+          right();
+	}
+      } else {
+        for (let i = 0; i < (screenX - event.screenX) / 100 + 1; ++i) {
+          left();
+        }
+      }
+    } else {
+      if (event.screenY > screenY) {
+        down();
+      } else {
+        up();
+      }
+    }
+
+  });
+  document.addEventListener("keydown", event => {
+
+    if (event.keyCode == 37) left();
+    if (event.keyCode == 39) right();
+    if (event.keyCode == 40) down();
+    if (event.keyCode == 38) up();
+    console.log(event.keyCode);
+  });
+</script>
+</body>
+</html>
