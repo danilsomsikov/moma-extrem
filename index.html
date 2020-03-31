@@ -452,23 +452,22 @@ height: 20px;
 
   newTurn();
   let screenX = -1, screenY = -1;
-  document.addEventListener("mousedown", event => {
-    screenX = event.screenX;
-    screenY = event.screenY;
+  let dragging = false;
+  striker.addEventListener("touchstart", event => {
+    screenX = event.touches[0].clientX;
+    screenY = event.touches[0].clientY;
+    dragging = false;
   });
-  document.addEventListener("mouseup", event => {
-    if (Math.abs(event.screenX - screenX) > Math.abs(event.screenY - screenY)) {
-      if (event.screenX > screenX) {
-        for (let i = 0; i < (event.screenX - screenX) / 100 + 1; ++i) {
-          right();
-	}
-      } else {
-        for (let i = 0; i < (screenX - event.screenX) / 100 + 1; ++i) {
-          left();
-        }
-      }
+  striker.addEventListener("touchmove", event => {
+    const newScreenX = event.touches[0].clientX;
+    const newScreenY = event.touches[0].clientY;
+    if (Math.abs(newScreenX - screenX) > Math.abs(newScreenY - screenY) || dragging) {
+      dragging = true;
+      move(striker, newScreenX - screenX);
+      screenX = newScreenX;
+      screenY = newScreenY;
     } else {
-      if (event.screenY > screenY) {
+      if (newScreenY > screenY) {
         down();
       } else {
         up();
