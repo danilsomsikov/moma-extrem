@@ -457,6 +457,8 @@ height: 20px;
     screenX = event.touches[0].clientX;
     screenY = event.touches[0].clientY;
     dragging = false;
+    event.preventDefault();
+    alert("hallo Dominik!");
   });
   striker.addEventListener("touchmove", event => {
     const newScreenX = event.touches[0].clientX;
@@ -473,7 +475,7 @@ height: 20px;
         up();
       }
     }
-
+    event.preventDefault();
   });
   document.addEventListener("keydown", event => {
 
