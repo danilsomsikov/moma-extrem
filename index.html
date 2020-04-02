@@ -305,14 +305,14 @@ height: 20px;
 <div id="win"></div>
 <script>
 
-  let drums = document.getElementById('drums');
-  let boom = document.getElementById('boom');
-  let loose = document.getElementById('loose');
-  let burg = document.getElementById('burg');
-  let burg2 = document.getElementById('burg2');
-  let striker = document.getElementById('striker');
-  let scoreStone = document.getElementById('score-stone');
-  let body = document.body;
+  var drums = document.getElementById('drums');
+  var boom = document.getElementById('boom');
+  var loose = document.getElementById('loose');
+  var burg = document.getElementById('burg');
+  var burg2 = document.getElementById('burg2');
+  var striker = document.getElementById('striker');
+  var scoreStone = document.getElementById('score-stone');
+  var body = document.body;
 
   function move(el, dist) {
     el.style.marginLeft=
@@ -345,7 +345,7 @@ height: 20px;
 
     body.classList.remove('down');
     body.classList.add('up');
-    setTimeout(()=> {
+    setTimeout(function() {
       body.classList.remove('up');
       body.classList.add('away');
     }, 100); 
@@ -354,8 +354,8 @@ height: 20px;
 
   function shot() {
     body.classList.remove('up');
-    const dist = Math.abs(parseInt(burg.style.marginLeft) - parseInt(striker.style.marginLeft));
-    const dist2 = Math.abs(parseInt(burg2.style.marginLeft) - parseInt(striker.style.marginLeft));
+    var dist = Math.abs(parseInt(burg.style.marginLeft) - parseInt(striker.style.marginLeft));
+    var dist2 = Math.abs(parseInt(burg2.style.marginLeft) - parseInt(striker.style.marginLeft));
     drums.pause();
     if (body.classList.contains('final') && burg2.style.display != 'none' && dist2 < 100) {
       hit(burg2);
@@ -370,7 +370,7 @@ height: 20px;
     boom.play();
     stone.classList.add('blown');
     el.classList.add('blown');
-    setTimeout(()=> {
+    setTimeout(function() {
      el.classList.add('striked');
     }, 400); 
     scoreStone.style.bottom=
@@ -401,7 +401,7 @@ height: 20px;
 
   function finalBurgMovement(el, initLeft) {
     let left = initLeft;
-    return () => {
+    return function() {
       if (left) {
 	if (parseInt(el.style.marginLeft) > -0.5 * window.innerWidth) {
           move(el, -100);
@@ -424,27 +424,27 @@ height: 20px;
       scoreStone.style.bottom =
         parseInt(scoreStone.style.bottom) - 20 + 'px';
     }
-    setTimeout(()=> {
+    setTimeout(function() {
      newTurn();
     }, 500); 
   }
 
   function win() {
     body.classList='win';
-    let i = 0;
-    setInterval(() => {
+    var i = 0;
+    setInterval(function() {
       if (i < 49) {
-        let winStone = document.createElement('div');
+        var winStone = document.createElement('div');
         winStone.classList='stone win-stone';
         document.body.appendChild(winStone);
-        setTimeout(() => winStone.classList.add('away-stone'), 100);
-        setTimeout(() => winStone.style.display='none', 1100);
+        setTimeout(function () { winStone.classList.add('away-stone') }, 100);
+        setTimeout(function() { winStone.style.display='none' }, 1100);
       } else if (i == 50) {
-        let winStone = document.createElement('div');
+        var winStone = document.createElement('div');
         winStone.classList='stone win-stone';
         winStone.innerText='You won!';
         document.body.appendChild(winStone);
-        setTimeout(() => winStone.classList.add('won-game-stone'), 100);
+        setTimeout(function() { winStone.classList.add('won-game-stone') }, 100);
       }
       ++i;
     }, 100);
@@ -453,13 +453,13 @@ height: 20px;
   newTurn();
   let screenX = -1, screenY = -1;
   let dragging = false;
-  striker.addEventListener("touchstart", event => {
+  striker.addEventListener("touchstart", function(event) {
     screenX = event.touches[0].clientX;
     screenY = event.touches[0].clientY;
     dragging = false;
     event.preventDefault();
   });
-  striker.addEventListener("touchmove", event => {
+  striker.addEventListener("touchmove", function(event) {
     const newScreenX = event.touches[0].clientX;
     const newScreenY = event.touches[0].clientY;
     if (Math.abs(newScreenX - screenX) > Math.abs(newScreenY - screenY) || dragging) {
@@ -476,7 +476,7 @@ height: 20px;
     }
     event.preventDefault();
   });
-  document.addEventListener("keydown", event => {
+  document.addEventListener("keydown", function(event) {
 
     if (event.keyCode == 37) left();
     if (event.keyCode == 39) right();
