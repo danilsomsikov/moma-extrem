@@ -430,18 +430,18 @@ height: 20px;
   }
 
   function win() {
-    body.classList='win';
+    body.className = 'win';
     var i = 0;
     setInterval(function() {
       if (i < 49) {
         var winStone = document.createElement('div');
-        winStone.classList='stone win-stone';
+        winStone.className = 'stone win-stone';
         document.body.appendChild(winStone);
         setTimeout(function () { winStone.classList.add('away-stone') }, 100);
         setTimeout(function() { winStone.style.display='none' }, 1100);
       } else if (i == 50) {
         var winStone = document.createElement('div');
-        winStone.classList='stone win-stone';
+        winStone.className ='stone win-stone';
         winStone.innerText='You won!';
         document.body.appendChild(winStone);
         setTimeout(function() { winStone.classList.add('won-game-stone') }, 100);
