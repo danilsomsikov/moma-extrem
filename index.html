@@ -386,7 +386,7 @@ height: 20px;
           return;
         }
       }
-      setTimeout(()=> {
+      setTimeout(function() {
        newTurn();
       }, 500); 
     }
@@ -400,7 +400,7 @@ height: 20px;
   }
 
   function finalBurgMovement(el, initLeft) {
-    let left = initLeft;
+    var left = initLeft;
     return function() {
       if (left) {
 	if (parseInt(el.style.marginLeft) > -0.5 * window.innerWidth) {
@@ -451,8 +451,8 @@ height: 20px;
   }
 
   newTurn();
-  let screenX = -1, screenY = -1;
-  let dragging = false;
+  var screenX = -1, screenY = -1;
+  var dragging = false;
   striker.addEventListener("touchstart", function(event) {
     screenX = event.touches[0].clientX;
     screenY = event.touches[0].clientY;
@@ -460,8 +460,8 @@ height: 20px;
     event.preventDefault();
   });
   striker.addEventListener("touchmove", function(event) {
-    const newScreenX = event.touches[0].clientX;
-    const newScreenY = event.touches[0].clientY;
+    var newScreenX = event.touches[0].clientX;
+    var newScreenY = event.touches[0].clientY;
     if (Math.abs(newScreenX - screenX) > Math.abs(newScreenY - screenY) || dragging) {
       dragging = true;
       move(striker, newScreenX - screenX);
