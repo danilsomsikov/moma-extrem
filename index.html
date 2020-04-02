@@ -322,9 +322,9 @@ height: 20px;
   function newTurn() {
     body.classList.remove('away');
     burg.style.marginLeft = (Math.random() -0.5) * (window.innerWidth - 200) + 'px';
-    stone.classList = 'stone';
-    burg.classList = 'burg';
-    burg2.classList = 'burg';
+    stone.class = 'stone';
+    burg.class = 'burg';
+    burg2.class = 'burg';
   }
 
   function left() {
@@ -394,7 +394,7 @@ height: 20px;
 
   function finalGame() {
     newTurn();
-    body.classList = "final";
+    body.class = "final";
     setInterval(finalBurgMovement(burg, true), 500);
     setInterval(finalBurgMovement(burg2, false), 500);
   }
